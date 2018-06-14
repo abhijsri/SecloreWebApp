@@ -1,0 +1,11 @@
+SecuredFiles:
+  1 :
+      fs-id: 1
+      ext-id : file1
+      ext-name : MISReport Aug-2014.xls
+      ext-app-id : devserver.example.1
+  2 :
+      fs-id: 2
+      ext-id : file2
+      ext-name : CreditCard.txt
+      ext-app-id : devserver.sample.1

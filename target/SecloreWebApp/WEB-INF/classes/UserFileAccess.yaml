@@ -1,0 +1,14 @@
+FileAccessRights:
+  - user_id : 1
+    file_id : file1
+    roles :
+      - OWNER
+  - user_id : 1
+    file_id : file2
+    roles :
+      - PUBLISHER
+      - VIEWER
+  - user_id : 2
+    file_id : file1
+    roles :
+      - CONTRIBUTOR

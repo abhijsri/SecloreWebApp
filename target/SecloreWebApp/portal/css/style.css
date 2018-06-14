@@ -1,0 +1,188 @@
+IMG, img
+{
+	border: none;
+}
+
+table thead th
+{
+	background-color:#337ab7;
+	color:#fff;
+}
+
+.table-bordered tr:nth-child(even)
+{
+	background: #f4f4f4;
+}
+.table-bordered tr:nth-child(odd)
+{
+	background: #FFF
+}
+.breadcrumb 
+{
+	background-color: #d9edf7;
+}
+
+.header
+{
+	height: 120px;
+	width: 100%;
+}
+.header img
+{
+	height: 100%;
+	width: 100%;
+}
+
+.header .user_name
+{
+	position: absolute;
+	right: 5px;
+	top: 2px;
+	color:#ccc;
+}
+.user_name .logout
+{
+	margin-left:6px;	
+}
+.user_name .logout a
+{
+	color:#ccc;
+	text-decoration:underline;
+	font-size: 14px;	
+}
+
+.header_inner
+{
+	margin-top: -30px;
+	margin-left: 20px;
+	margin-right: 20px;
+	position: relative;
+}
+
+.header_inner .app_name
+{
+	float: left;
+	font-size: 30px;
+	color: #f4f4f4;
+	margin-top: 25px;
+}
+.header_inner .user_logout{
+	color: #146EA2;
+	float: right;
+	margin-top: 5px;
+}
+.container
+{
+	margin-top: 20px;
+	margin-bottom: 20px;	
+	
+}
+
+.getstarted-box{
+	text-align: center;
+	margin-top:20px;
+}
+.redirect_link{
+	padding: 0px 40px;
+	display: inline-block;
+	font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: 700;
+	height: 42px;
+	line-height: 42px;
+	text-align: center;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+	text-transform: uppercase;
+	transition: 0.5s ease;
+	text-decoration: none;
+	border: 2px solid #888;
+}
+.redirect_link:HOVER{
+	color: #FFFFFF;
+	border: 2px solid #146EA2;
+	box-shadow: 0 100px 0 #146EA2 inset;
+	text-decoration: none;
+	border: 2px solid #888;
+}
+.supported_ext
+{
+	font-size: 12px;
+	font-style: italic;
+	color: #333;
+}
+.errors
+{
+	margin-left:10px;
+}
+.footer
+{
+	margin-top: 20px;
+	padding: 5px;
+	border-top: solid 1px #ccc;	
+	display: inline-block;
+	width: 100%;
+}
+.version_info
+{
+	float:right;
+	margin-right:20px;
+}
+.footer_info
+{
+	float:left;
+	margin-left:20px;
+}
+
+img.action_icon{
+	width:20px;
+	height:20px;
+}
+
+.table_outer
+{
+	max-height:600px;
+	overflow: auto;
+}
+.title{
+	margin-top:20px;
+}
+
+.folder_form .input {
+	width: 300px;
+	max-width: 300px;
+	float: left;
+}
+
+.folder_form .checkbox {
+	width: 20px;
+}
+
+.file_form .input {
+	width: 350px;
+	max-width: 350px;
+	float: left;
+}
+select.form-control{
+	height:28px;
+	padding:2px;
+}
+#users_rights img{
+	width:15px;
+	height:15px;
+	cursor: pointer; 
+}
+
+.readonlyElement{
+	margin-top:5px;
+	background-color:#f4f4f4;
+	padding:2px 4px;
+	border:solid 1px #ccc;
+	float:left;
+}
+.error
+{
+	color:red;	
+}
+.success{
+	color: green;
+}
