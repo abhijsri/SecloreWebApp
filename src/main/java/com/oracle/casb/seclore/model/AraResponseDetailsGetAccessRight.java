@@ -1,5 +1,7 @@
 package com.oracle.casb.seclore.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
@@ -9,20 +11,34 @@ import java.io.Serializable;
  **/
 @XmlRootElement(name = "ara-response-details-get-access-right")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-        "araAccessRightDetails",
-        "araOwnerDetails",
-        "araClassificationDetails"
-})
+
 public class AraResponseDetailsGetAccessRight implements Serializable {
 
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "ara-access-right-details", required = true)
+    @JacksonXmlProperty(localName = "ara-access-right-details")
     protected AraAccessRightDetails araAccessRightDetails;
+    @XmlElement(name = "ara-watermark-details")
+    @JacksonXmlProperty(localName = "ara-watermark-details")
+    protected AraWaterMarkDetails araWaterMarkDetails;
     @XmlElement(name = "ara-owner-details", required = true)
+    @JacksonXmlProperty(localName = "ara-owner-details")
     protected  ARAOwnerDetails araOwnerDetails;
     @XmlElement(name = "ara-classification-details", required = true)
+    @JacksonXmlProperty(localName = "ara-classification-details")
     protected ARAClassificationDetails araClassificationDetails;
+
+    @XmlElement(name = "ara-display-message", required = true)
+    @JacksonXmlProperty(localName = "ara-display-message")
+    protected String displayMessage;
+
+    public AraWaterMarkDetails getAraWaterMarkDetails() {
+        return araWaterMarkDetails;
+    }
+
+    public void setAraWaterMarkDetails(AraWaterMarkDetails araWaterMarkDetails) {
+        this.araWaterMarkDetails = araWaterMarkDetails;
+    }
 
     public AraAccessRightDetails getAraAccessRightDetails() {
         return araAccessRightDetails;
@@ -46,5 +62,13 @@ public class AraResponseDetailsGetAccessRight implements Serializable {
 
     public void setAraClassificationDetails(ARAClassificationDetails araClassificationDetails) {
         this.araClassificationDetails = araClassificationDetails;
+    }
+
+    public String getDisplayMessage() {
+        return displayMessage;
+    }
+
+    public void setDisplayMessage(String displayMessage) {
+        this.displayMessage = displayMessage;
     }
 }

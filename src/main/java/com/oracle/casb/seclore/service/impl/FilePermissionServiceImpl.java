@@ -30,6 +30,12 @@ public class FilePermissionServiceImpl implements FilePermissionService {
 
     private FilePermissionRepository filePermissionRepository;
 
+    public FilePermissionServiceImpl(Users users, SecuredFiles files, FileAccessRights fileAccessRights) {
+        this.userRepository = new UserRepository(users);
+        this.fileRepository = new FileRepository(files);
+        this.filePermissionRepository = new FilePermissionRepository(fileAccessRights);
+    }
+
     public FilePermissionServiceImpl(ObjectMapper objectMapper) throws IOException {
         userRepository = new UserRepository(objectMapper);
         fileRepository = new FileRepository(objectMapper);

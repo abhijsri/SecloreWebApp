@@ -1,5 +1,7 @@
 package com.oracle.casb.seclore.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,15 +20,18 @@ public class ARAUserDetails
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "ext-id")
+    @JacksonXmlProperty(localName = "ext-id")
     private String extId;
 
     @XmlElement(name = "rep-code")
+    @JacksonXmlProperty(localName = "rep-code")
     private String repoCode;
 
     @XmlElement(name = "name")
     private String name;
 
     @XmlElement(name = "email-id")
+    @JacksonXmlProperty(localName = "email-id")
     private String emailId;
 
     public String getExtId() {

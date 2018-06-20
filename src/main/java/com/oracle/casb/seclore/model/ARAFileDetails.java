@@ -11,7 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author harindra.chaudhary
  */
 @XmlRootElement(name = "ara-file-details")
-@XmlAccessorType(XmlAccessType.FIELD) public class ARAFileDetails {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ARAFileDetails {
     /**
      * Hot Folder id created by Policy Server
      */
@@ -41,6 +42,14 @@ import javax.xml.bind.annotation.XmlRootElement;
      */
     @XmlElement(name = "ext-app-id")
     private String extAppId;
+
+    @XmlElement(name = "protection-type")
+    private Long protectionType;
+
+    @XmlElement(name = "protection-time")
+    private String protectionTime;
+
+
 
     public Long getFsId() {
         return fsId;
@@ -82,4 +91,19 @@ import javax.xml.bind.annotation.XmlRootElement;
         this.extAppId = extAppId;
     }
 
+    public Long getProtectionType() {
+        return protectionType;
+    }
+
+    public void setProtectionType(Long protectionType) {
+        this.protectionType = protectionType;
+    }
+
+    public String getProtectionTime() {
+        return protectionTime;
+    }
+
+    public void setProtectionTime(String protectionTime) {
+        this.protectionTime = protectionTime;
+    }
 }

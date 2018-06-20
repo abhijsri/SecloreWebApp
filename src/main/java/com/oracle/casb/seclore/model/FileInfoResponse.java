@@ -7,17 +7,17 @@ import java.io.Serializable;
  * Created By : abhijsri
  * Date  : 09/06/18
  **/
-@XmlRootElement(name = "ara-request-get-access-right")
+@XmlRootElement(name = "ara-response-get-file-information")
 @XmlAccessorType(XmlAccessType.FIELD)
 
-public class AccessRightRequest implements Serializable {
+public class FileInfoResponse implements Serializable {
     private final static long serialVersionUID = 1L;
 
-    @XmlElement(name = "ara-request-header", required = true)
+    @XmlElement(name = "ara-response-header", required = true)
     protected AraHeader araHeader;
 
-    @XmlElement(name = "ara-request-details-get-access-right", required = true)
-    protected AraRequestDetailsGetAccessRight araRequestDetailsGetAccessRight;
+    @XmlElement(name = "ara-response-details-get-file-information", required = true)
+    protected AraResponseDetailsGetFileInfo responseDetailsGetFileInfo;
 
     @XmlAttribute(name = "type", required = true)
     @XmlSchemaType(name = "unsignedByte")
@@ -31,12 +31,12 @@ public class AccessRightRequest implements Serializable {
         this.araHeader = araHeader;
     }
 
-    public AraRequestDetailsGetAccessRight getAraRequestDetailsGetAccessRight() {
-        return araRequestDetailsGetAccessRight;
+    public AraResponseDetailsGetFileInfo getResponseDetailsGetFileInfo() {
+        return responseDetailsGetFileInfo;
     }
 
-    public void setAraRequestDetailsGetAccessRight(AraRequestDetailsGetAccessRight araRequestDetailsGetAccessRight) {
-        this.araRequestDetailsGetAccessRight = araRequestDetailsGetAccessRight;
+    public void setResponseDetailsGetFileInfo(AraResponseDetailsGetFileInfo responseDetailsGetFileInfo) {
+        this.responseDetailsGetFileInfo = responseDetailsGetFileInfo;
     }
 
     public short getType() {

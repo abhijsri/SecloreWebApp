@@ -1,5 +1,7 @@
 package com.oracle.casb.seclore.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,6 +18,7 @@ public class ARAOwnerDetails {
      * File Owner Details
      */
     @XmlElement(name = "ara-user-details")
+    @JacksonXmlProperty(localName = "ara-user-details")
     private ARAUserDetails araUserDetails;
 
     /**

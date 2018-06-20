@@ -19,6 +19,9 @@ public class FileRepository {
 
     private SecuredFiles files;
 
+    public FileRepository(SecuredFiles files) {
+        this.files = files;
+    }
 
     public FileRepository(ObjectMapper mapper) throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();

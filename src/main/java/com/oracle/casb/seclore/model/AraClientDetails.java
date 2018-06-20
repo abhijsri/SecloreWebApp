@@ -9,10 +9,10 @@ import java.io.Serializable;
  **/
 @XmlRootElement(name = "ara-client-details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+/*@XmlType(name = "", propOrder = {
         "clientNumber",
         "clientName"
-})
+})*/
 public class AraClientDetails implements Serializable {
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "client-number")

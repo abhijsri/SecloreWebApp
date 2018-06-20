@@ -1,5 +1,7 @@
 package com.oracle.casb.seclore.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import javax.xml.bind.annotation.*;
 
 /**
@@ -8,22 +10,26 @@ import javax.xml.bind.annotation.*;
  **/
 @XmlRootElement(name = "ara-response-get-access-right")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-        "araResponseHeader",
-        "araResponseDetailsGetAccessRight"
-})
+/*@XmlType(name = "", propOrder = {
+        "ara-response-header",
+        "ara-response-details-get-access-right"
+})*/
 public class AccessRightResponse {
 
     private final static long serialVersionUID = 1L;
 
     @XmlElement(name = "ara-response-header", required = true)
+    @JacksonXmlProperty(localName = "ara-response-header")
     protected AraHeader araResponseHeader;
     @XmlElement(name = "ara-response-details-get-access-right", required = true)
+    @JacksonXmlProperty(localName = "ara-response-details-get-access-right")
     protected AraResponseDetailsGetAccessRight araResponseDetailsGetAccessRight;
     @XmlAttribute(name = "type", required = true)
     @XmlSchemaType(name = "unsignedByte")
+    @JacksonXmlProperty(localName = "type")
     protected short type;
 
+    @JacksonXmlProperty(localName = "ara-response-header")
     public AraHeader getAraResponseHeader() {
         return araResponseHeader;
     }
@@ -32,6 +38,7 @@ public class AccessRightResponse {
         this.araResponseHeader = araResponseHeader;
     }
 
+    @JacksonXmlProperty(localName = "ara-response-details-get-access-right")
     public AraResponseDetailsGetAccessRight getAraResponseDetailsGetAccessRight() {
         return araResponseDetailsGetAccessRight;
     }
@@ -40,6 +47,7 @@ public class AccessRightResponse {
         this.araResponseDetailsGetAccessRight = araResponseDetailsGetAccessRight;
     }
 
+    @JacksonXmlProperty(localName = "type")
     public short getType() {
         return type;
     }

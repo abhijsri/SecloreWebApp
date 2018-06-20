@@ -24,6 +24,11 @@ public class FilePermissionRepository {
 
     Table<Long, String, FileAccessRight> userFileAccessTable;
 
+    public FilePermissionRepository(FileAccessRights fileAccessRights) {
+        this.fileAccessRights = fileAccessRights;
+        userFileAccessTable = populateFileAccessTable();
+    }
+
     public FilePermissionRepository(ObjectMapper mapper) throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         try {

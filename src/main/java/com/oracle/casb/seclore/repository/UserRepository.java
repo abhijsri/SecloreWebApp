@@ -20,6 +20,10 @@ public class UserRepository {
 
     private Users users;
 
+    public UserRepository(Users users) {
+        this.users = users;
+    }
+
     public UserRepository(ObjectMapper mapper) throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         try {

@@ -187,7 +187,6 @@ public class XMLDBService {
         if (appFolder == null) {
             return null;
         }
-
         return appFolder.getFileMap().get(fileId);
     }
 
@@ -424,10 +423,10 @@ public class XMLDBService {
      */
     public static Integer getUserRights(String userId, String emailId, String folderId, String fileId) {
 
-        logger.debug("User ID " + userId);
-        logger.debug("Email ID " + emailId);
-        logger.debug("Folder ID " + folderId);
-        logger.debug("File ID " + fileId);
+        logger.info("User ID " + userId);
+        logger.info("Email ID " + emailId);
+        logger.info("Folder ID " + folderId);
+        logger.info("File ID " + fileId);
         AppFile lFile = XMLDBService.getFile(folderId, fileId);
         if (lFile == null) {
             // File does not exist

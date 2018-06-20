@@ -9,9 +9,9 @@ import java.io.Serializable;
  **/
 @XmlRootElement(name = "ara-file-usage-details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+/*@XmlType(name = "", propOrder = {
         "firstAccessTime"
-})
+})*/
 public class AraFileUsageDetails implements Serializable {
 
     private final static long serialVersionUID = 1L;

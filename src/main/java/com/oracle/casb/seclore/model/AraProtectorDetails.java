@@ -9,9 +9,9 @@ import java.io.Serializable;
  **/
 @XmlRootElement(name = "ara-protector-details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+/*@XmlType(name = "", propOrder = {
         "araUserDetails"
-})
+})*/
 public class AraProtectorDetails implements Serializable {
     /**
      * File Owner Details

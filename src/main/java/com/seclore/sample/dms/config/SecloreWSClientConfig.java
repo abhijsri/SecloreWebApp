@@ -30,12 +30,6 @@ public class SecloreWSClientConfig {
 
     private static Logger logger = Logger.getLogger(SecloreWSClientConfig.class);
 
-    public static void main(String[] args) throws IOException {
-        String file = "/Users/abhijsri/tools/tomcat9/" + FSCONFIG_PATH;
-        System.out.println("Reading file " + file);
-        String content = getConfigFileContent(file);
-        System.out.println("Content of File " + file );
-    }
     /**
      * Used to connect at time of File upload using WebConnect Integration
      */
@@ -43,7 +37,7 @@ public class SecloreWSClientConfig {
 
     public static void initializeWSClient(String appPath) {
 
-        String log4jConfPath = "/Users/abhijsri/tools/tomcat9/config/log4j.properties";
+        String log4jConfPath = appPath + "config/log4j.properties";
         PropertyConfigurator.configure(log4jConfPath);
         logger.debug("Logs initialized with path " + log4jConfPath);
         String wsClientConfigFilePath = appPath + FSCONFIG_PATH;

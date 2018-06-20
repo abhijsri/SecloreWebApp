@@ -9,9 +9,9 @@ import java.io.Serializable;
  **/
 @XmlRootElement(name = "ara-environment-details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+/*@XmlType(name = "", propOrder = {
         "requestIpAddress"
-})
+})*/
 public class AraEnvironmentDetails implements Serializable {
 
     private final static long serialVersionUID = 1L;
