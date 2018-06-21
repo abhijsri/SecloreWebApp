@@ -22,7 +22,7 @@ public class FileServiceImpl implements FileService {
     @Override public FileInfoResponse getFileInfo(FileInfoRequest request) {
         FileInfoResponse  response = new FileInfoResponse();
         response.setAraHeader(request.getAraHeader());
-        response.getAraHeader().setStatus((short) 1);
+        response.getAraHeader().setStatus(1);
         AraResponseDetailsGetFileInfo fileInfo = new AraResponseDetailsGetFileInfo();
         fileInfo.setAraClassificationDetails(request.getRequestDetailsGetFileInfo().getAraClassificationDetails());
         ARAOwnerDetails owner = new ARAOwnerDetails();

@@ -30,8 +30,10 @@ import com.seclore.sample.dms.util.LoggerUtil;
 public class XMLHelper {
     public static final String PROTOCOL_VERSION = "1";
     public static final String SUCCESS = "1";
-    public static final Short STATUS_ERROR = -2;
-    public static final Short STATUS_FAILED = -1;
+    public static final Integer STATUS_SUCCESS = 1;
+    public static final Integer STATUS_FILE_NOT_FOUND = -1;
+    public static final Integer STATUS_ERROR = -2;
+    public static final Integer STATUS_EXCEPTION = -290013;
     private static XPath xpath = XPathFactory.newInstance().newXPath();
 
     public static Document parseDocument(String xmlString) {

@@ -34,7 +34,7 @@ public class AraHeader implements Serializable {
     @XmlElement(name = "status")
     @XmlSchemaType(name = "unsignedByte")
     @JacksonXmlProperty(localName = "status")
-    protected short status;
+    protected Integer status;
 
     public short getProtocolVersion() {
         return protocolVersion;
@@ -53,11 +53,11 @@ public class AraHeader implements Serializable {
         this.requestId = requestId;
     }
 
-    public short getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(short status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

@@ -1,23 +1,11 @@
 package com.seclore.sample.ara.webservice;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.google.common.collect.ImmutableList;
 import com.jsoniter.JsonIterator;
 import com.jsoniter.any.Any;
 import com.oracle.casb.seclore.helper.ConfigFileReader;
-import com.oracle.casb.seclore.model.Users;
-import com.oracle.casb.seclore.model.SecuredFiles;
-import com.oracle.casb.seclore.model.FileAccessRights;
-import com.oracle.casb.seclore.model.AccessRightResponse;
-import com.oracle.casb.seclore.model.AccessRightRequest;
-import com.oracle.casb.seclore.model.ARAHotFolderDetails;
-import com.oracle.casb.seclore.model.ARAClassificationDetails;
-import com.oracle.casb.seclore.model.ARAUserDetails;
-import com.oracle.casb.seclore.model.ARAFileDetails;
-import com.oracle.casb.seclore.model.ARAOwnerDetails;
-import com.oracle.casb.seclore.model.FileInfoResponse;
-import com.oracle.casb.seclore.model.AraHeader;
-import com.oracle.casb.seclore.model.AraResponseDetailsGetFileInfo;
-import com.oracle.casb.seclore.model.FileInfoRequest;
+import com.oracle.casb.seclore.model.*;
 import com.oracle.casb.seclore.service.FilePermissionService;
 import com.oracle.casb.seclore.service.FileService;
 import com.oracle.casb.seclore.service.impl.FilePermissionServiceImpl;
@@ -42,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
-import static com.seclore.sample.ara.webservice.XMLHelper.STATUS_ERROR;
+import static com.seclore.sample.ara.webservice.XMLHelper.*;
 
 /**
  * Access Right Adaptor (ARA) request handler which receive request from Policy Server and return response with DMS rights.
@@ -283,64 +271,56 @@ public class ARARequestHandler {
     }
 
     private AccessRightResponse getResponse(AccessRightRequest request) throws IOException {
-        String lstrMethodName = this.getClass().getName() + "::handleARAGetAccessRight:: ";
-
-        String requestId = request.getAraHeader().getRequestId();
-
-        String errorMessageXML = "";
-        String displayMessageXML = "";
-
         int fsPrimaryRight = 0;
         String fileName = "";
-        String lstrXMLOwner = "";
-        String lstrXMLClassification = "";
-        String lstrXMLARADispMsg = "";
         String status = XMLHelper.SUCCESS;
+
+
+        ARAHotFolderDetails hfDetails = request.getAraRequestDetailsGetAccessRight().getAraHotFolderDetails();
+        ARAClassificationDetails classificationDetails = request.getAraRequestDetailsGetAccessRight().getAraClassificationDetails();
+        ARAUserDetails userDetails = request.getAraRequestDetailsGetAccessRight().getAraUserDetails();
+        ARAFileDetails fileDetails = request.getAraRequestDetailsGetAccessRight().getAraFileDetails();
+        ARAOwnerDetails ownereDetails = request.getAraRequestDetailsGetAccessRight().getAraOwnerDetails();
+
+        AraHeader header = prepareHeader(request.getAraHeader());
+        AccessRightResponse response = new AccessRightResponse();
+        response.setAraResponseHeader(header);
+        AraResponseDetailsGetAccessRight responseDetails = new AraResponseDetailsGetAccessRight();
+        response.setAraResponseDetailsGetAccessRight(responseDetails);
         try {
-            ARAHotFolderDetails hfDetails = request.getAraRequestDetailsGetAccessRight().getAraHotFolderDetails();
-            ARAClassificationDetails classificationDetails = request.getAraRequestDetailsGetAccessRight().getAraClassificationDetails();
-            ARAUserDetails userDetails = request.getAraRequestDetailsGetAccessRight().getAraUserDetails();
-            ARAFileDetails fileDetails = request.getAraRequestDetailsGetAccessRight().getAraFileDetails();
-            ARAOwnerDetails ownereDetails = request.getAraRequestDetailsGetAccessRight().getAraOwnerDetails();
-
-            fileName = fileDetails.getExtName();
             String lstrExtnData = fileDetails.getExtData();
-
             if (lstrExtnData == null || lstrExtnData.trim().isEmpty()) {
                 throw new Exception("File External Reference data not found!");
             }
-
             Any any = JsonIterator.deserialize(lstrExtnData);
             Any lstrExtnHfidObj = any.get(Constants.KEY_HF_EXTN_REF_ID);
             if (lstrExtnHfidObj == null) {
                 throw new Exception("'" + Constants.KEY_HF_EXTN_REF_ID + "' not found in file external data");
             }
+            fileName = fileDetails.getExtName();
             String lstrExtnHfid = lstrExtnHfidObj.toString();
             logger.info("File Name " + fileDetails.getExtName());
             logger.info("File External Reference" + fileDetails.getExtData());
             logger.info("User Email ID : " + userDetails.getEmailId());
             logger.info("User External Ref ID : " + userDetails.getExtId());
             logger.info("External file hf-id lstrExtnHfid " + lstrExtnHfid);
+
             int rights
                     = XMLDBService.getUserRights(userDetails.getExtId(), userDetails.getEmailId(), lstrExtnHfid, fileDetails.getExtId());
 
             if (rights == Constants.FILE_NOT_EXIST) {
-                status = "-1";
-                errorMessageXML = "<error-message>" + XMLHelper
-                        .escapeForXML("Requested File '" + fileDetails.getExtName() + "' does not exist")
-                        + "</error-message>";
-                displayMessageXML = "<display-message>" + XMLHelper
-                        .escapeForXML("Requested File '" + fileDetails.getExtName() + "' does not exist")
-                        + "</display-message>";
-                logger.info(
-                        lstrMethodName + "[" + requestId + "]:" + " Requested File '" + fileDetails.getExtName()
-                                + "' does not exist");
+                logger.info(" Requested File '" + fileDetails.getExtName() + "' does not exist");
+                String message = XMLHelper.escapeForXML("Requested File '" + fileDetails.getExtName() + "' does not exist");
+                header.setStatus(STATUS_FILE_NOT_FOUND);
+                header.setDisplayMessage(message);
+                header.setErrorMessage(message);
+                response.setAraResponseDetailsGetAccessRight(null);
+                return response;
+
             } else if (rights == Constants.NO_RIGHTS) {
-                lstrXMLARADispMsg = "<ara-display-message>" + XMLHelper.escapeForXML(
-                        "User'" + userDetails.getName() + "' does not have rights on file '" + fileDetails.getExtName()
-                                + "'") + "</ara-display-message>";
-                logger.info(lstrMethodName + "[" + requestId + "]:" + " User'" + userDetails.getName()
-                        + "' does not have rights on file '" + fileDetails.getExtName() + "'");
+                logger.info(" User'" + userDetails.getName() + "' does not have rights on file '" + fileDetails.getExtName() + "'");
+                String displayMessage = XMLHelper.escapeForXML("User'" + userDetails.getName() + "' does not have rights on file '" + fileDetails.getExtName() + "'");
+                responseDetails.setDisplayMessage(displayMessage);
             } else {
                 fsPrimaryRight = mapWithFileSecureRights(rights);
             }
@@ -349,47 +329,52 @@ public class ARARequestHandler {
                 //Prepare Owner XML
                 AppFile lFile = XMLDBService.getFile(lstrExtnHfid, fileDetails.getExtId());
                 Owner lOwner = lFile.getOwner();
-                lstrXMLOwner = prepareOwnerXML(requestId, lOwner, ownereDetails);
-
-                //Prepare Classification XML
+                responseDetails.setAraOwnerDetails(prepareOwnerDetails(lOwner, ownereDetails));
                 Classification lClassification = lFile.getClassification();
-                lstrXMLClassification = prepareClassificationXML(requestId, lClassification, classificationDetails);
-                logger.info("lstrXMLClassification " + lstrXMLClassification);
+                responseDetails.setAraClassificationDetails(prepareClassification(lClassification, classificationDetails));
             }
         } catch (Exception exp) {
-            status = "-290013";
-            errorMessageXML = "<error-message>" + XMLHelper
-                    .escapeForXML("Error occured while fetching the rights - " + exp.getMessage()) + "</error-message>";
-            displayMessageXML =
-                    "<display-message>" + XMLHelper.escapeForXML("Some error occured while fetching the rights")
-                            + "</display-message>";
-            logger.error(
-                    lstrMethodName + "[" + requestId + "]:" + " Error occured while fetching the rights - " + exp
-                            .getMessage(), exp);
+            String displayMessage = XMLHelper.escapeForXML("Some error occured while fetching the rights");
+            String errorMessage = XMLHelper.escapeForXML("Error occured while fetching the rights - " + exp.getMessage());
+            header.setStatus(STATUS_EXCEPTION);
+            header.setErrorMessage(errorMessage);
+            header.setDisplayMessage(displayMessage);
+            response.setAraResponseDetailsGetAccessRight(null);
+            logger.error("Error occurred while fetching the rights - " + exp.getMessage(), exp);
+            return response;
         }
-
-        logger.info("Construct response header XML");
-        // Construct response header XML
-        String respHeaderXML = "<ara-response-header>" + "<request-id>" + requestId + "</request-id>"
-                + "<protocol-version>1</protocol-version>" + "<status>" + status + "</status>" + errorMessageXML
-                + displayMessageXML + "</ara-response-header>";
-
-        logger.info("Construct response header XML" + respHeaderXML);
-        String respDetailsXML = "";
         if (status == XMLHelper.SUCCESS) {
             logger.info("Construct respDetailsXML for SUCCESS ");
-            respDetailsXML = generateResponseDetailsXML(fsPrimaryRight, lstrXMLARADispMsg, fileName, lstrXMLOwner,
-                    lstrXMLClassification);
+            if (fsPrimaryRight != 0) {
+                AraWaterMarkDetails waterMark = new AraWaterMarkDetails();
+                waterMark.setLines(ImmutableList.<String>of(
+                        "This document is '$FILECLASS$'",
+                        "User- $USERNAME$",
+                        "File- " + XMLHelper.escapeForXML(fileName)  + " ($FILEID$)",
+                        "$VIEWTIME"
+                ));
+                responseDetails.setAraWaterMarkDetails(waterMark);
+            }
+            AraAccessRightDetails accessRights = new AraAccessRightDetails();
+            //accessRights.setOfflineAccessRight(Boolean.FALSE);
+            accessRights.setPrimaryAccessRight((short) fsPrimaryRight);
+            responseDetails.setAraAccessRightDetails(accessRights);
         }
+        response.setType((short) 2);
 
-        // Construct response XML
-        String responseXML = "<ara-response-get-access-right type=\"2\">" + respHeaderXML + respDetailsXML
-                + "</ara-response-get-access-right>";
-
-        logger.info(lstrMethodName + "[" + requestId + "]:" + " Request and Response XML: " + responseXML);
-        logger.info(lstrMethodName + "[" + requestId + "]:" + "END");
-        return xmlMapper.readValue(responseXML, AccessRightResponse.class);
+        response.setAraResponseDetailsGetAccessRight(responseDetails);
+        return response;
     }
+
+    private AraHeader prepareHeader(AraHeader araHeader) {
+        AraHeader header = new AraHeader();
+        header.setRequestId(araHeader.getRequestId());
+        header.setProtocolVersion(araHeader.getProtocolVersion());
+        header.setStatus(XMLHelper.STATUS_SUCCESS);
+        return header;
+    }
+
+
     @GET
     @POST
     @Path("/getfileinformation")
@@ -427,7 +412,7 @@ public class ARARequestHandler {
         return response;
     }
 
-    private AraHeader createErrorHeader(AraHeader reqHeader, Short statusError) {
+    private AraHeader createErrorHeader(AraHeader reqHeader, Integer statusError) {
         AraHeader responseHeader = new AraHeader();
         responseHeader.setProtocolVersion(reqHeader.getProtocolVersion());
         responseHeader.setRequestId(reqHeader.getRequestId());
@@ -540,6 +525,26 @@ public class ARARequestHandler {
         return responseXML;
     }*/
 
+   private AraResponseDetailsGetAccessRight generateResponseDetails(int pFSPrimaryRight,
+           String pXMLARADispMsg, String pFileName, ARAOwnerDetails owner, ARAClassificationDetails classification) {
+       logger.info("pFSPrimaryRight - " + pFSPrimaryRight + " pXMLARADispMsg - " + pXMLARADispMsg + " pFileName " + pFileName);
+       AraResponseDetailsGetAccessRight responseAcccessRight = new AraResponseDetailsGetAccessRight();
+       if (pFSPrimaryRight != 0) {
+           AraWaterMarkDetails waterMark = new AraWaterMarkDetails();
+           waterMark.setLines(ImmutableList.<String>of(
+               "This document is '$FILECLASS$'",
+                   "User- $USERNAME$",
+                   "File- " + XMLHelper.escapeForXML(pFileName)  + " ($FILEID$)",
+                   "$VIEWTIME"
+           ));
+           responseAcccessRight.setAraWaterMarkDetails(waterMark);
+       }
+       AraAccessRightDetails accessRights = new AraAccessRightDetails();
+       //accessRights.setOfflineAccessRight(Boolean.FALSE);
+       accessRights.setPrimaryAccessRight((short) pFSPrimaryRight);
+       responseAcccessRight.setAraAccessRightDetails(accessRights);
+       return responseAcccessRight;
+   }
     /**
      * Generate get access right response details
      *
@@ -621,6 +626,22 @@ public class ARARequestHandler {
 
     }
 
+    private ARAOwnerDetails prepareOwnerDetails(Owner lOwner, ARAOwnerDetails ownerDetails) {
+        if (lOwner == null
+                || isEmpty(lOwner.getEmailId())) {
+            return ownerDetails;
+        }
+        ARAOwnerDetails owner = new ARAOwnerDetails();
+        ARAUserDetails user = new ARAUserDetails();
+        user.setEmailId(lOwner.getEmailId());
+        owner.setAraUserDetails(user);
+        return owner;
+    }
+
+    private boolean isEmpty(String emailId) {
+        return (emailId == null || emailId.trim().isEmpty());
+    }
+
     private String prepareOwnerXML(String pRequestId, Owner lOwner, ARAOwnerDetails ownereDetails) throws Exception {
         String lstrMethodName = this.getClass().getName() + "::prepareOwnerXML::";
         logger.info(lstrMethodName + "[" + pRequestId + "]:" + "START");
@@ -649,6 +670,18 @@ public class ARARequestHandler {
                 + "Same file owner (received in request) is returned by application: " + lstrXML);
         logger.info(lstrMethodName + "[" + pRequestId + "]:" + "END");
         return lstrXML;
+    }
+
+    private ARAClassificationDetails prepareClassification(Classification lClassification,
+            ARAClassificationDetails classificationDetails) {
+        if (lClassification == null
+                || isEmpty(lClassification.getId())) {
+            return classificationDetails;
+        }
+        ARAClassificationDetails classification = new ARAClassificationDetails();
+        classification.setFsId(lClassification.getId());
+        classification.setName(lClassification.getName());
+        return classification;
     }
 
     private String prepareClassificationXML(String pRequestId, Classification lClassification,
