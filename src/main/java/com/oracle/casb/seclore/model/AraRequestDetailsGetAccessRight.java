@@ -1,6 +1,9 @@
 package com.oracle.casb.seclore.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 
 /**
@@ -8,17 +11,6 @@ import java.io.Serializable;
  * Date  : 09/06/18
  **/
 @XmlAccessorType(XmlAccessType.FIELD)
-/*@XmlType(name = "", propOrder = {
-        "araFileDetails",
-        "araHotFolderDetails",
-        "araUserDetails",
-        "araOwnerDetails",
-        "araProtectorDetails",
-        "araClientDetails",
-        "araEnvironmentDetails",
-        "araFileUsageDetails",
-        "araClassificationDetails"
-})*/
 @XmlRootElement(name = "ara-request-details-get-access-right")
 public class AraRequestDetailsGetAccessRight implements Serializable {
 

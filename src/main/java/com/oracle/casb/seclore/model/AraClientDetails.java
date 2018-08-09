@@ -1,6 +1,10 @@
 package com.oracle.casb.seclore.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import java.io.Serializable;
 
 /**
@@ -9,10 +13,6 @@ import java.io.Serializable;
  **/
 @XmlRootElement(name = "ara-client-details")
 @XmlAccessorType(XmlAccessType.FIELD)
-/*@XmlType(name = "", propOrder = {
-        "clientNumber",
-        "clientName"
-})*/
 public class AraClientDetails implements Serializable {
     private final static long serialVersionUID = 1L;
     @XmlElement(name = "client-number")

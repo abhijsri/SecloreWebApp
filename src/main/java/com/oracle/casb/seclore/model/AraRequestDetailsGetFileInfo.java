@@ -19,18 +19,8 @@ public class AraRequestDetailsGetFileInfo implements Serializable {
     protected ARAFileDetails araFileDetails;
     @XmlElement(name = "ara-hot-folder-details", required = true)
     protected ARAHotFolderDetails araHotFolderDetails;
-    /*@XmlElement(name = "ara-user-details", required = true)
-    protected ARAUserDetails araUserDetails;*/
     @XmlElement(name = "ara-owner-details", required = true)
     protected ARAOwnerDetails araOwnerDetails;
-   /* @XmlElement(name = "ara-protector-details", required = true)
-    protected AraProtectorDetails araProtectorDetails;
-    @XmlElement(name = "ara-client-details", required = true)
-    protected  AraClientDetails araClientDetails;
-    @XmlElement(name = "ara-environment-details", required = true)
-    protected AraEnvironmentDetails araEnvironmentDetails;
-    @XmlElement(name = "ara-file-usage-details", required = true)
-    protected  AraFileUsageDetails araFileUsageDetails;*/
     @XmlElement(name = "ara-classification-details", required = true)
     protected   ARAClassificationDetails araClassificationDetails;
 

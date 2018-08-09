@@ -2,7 +2,12 @@ package com.oracle.casb.seclore.model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 /**
  * Created By : abhijsri
@@ -10,10 +15,7 @@ import javax.xml.bind.annotation.*;
  **/
 @XmlRootElement(name = "ara-response-get-access-right")
 @XmlAccessorType(XmlAccessType.FIELD)
-/*@XmlType(name = "", propOrder = {
-        "ara-response-header",
-        "ara-response-details-get-access-right"
-})*/
+
 public class AccessRightResponse {
 
     private final static long serialVersionUID = 1L;

@@ -1,6 +1,9 @@
 package com.oracle.casb.seclore.model;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 
 /**
@@ -9,9 +12,6 @@ import java.io.Serializable;
  **/
 @XmlRootElement(name = "ara-file-usage-details")
 @XmlAccessorType(XmlAccessType.FIELD)
-/*@XmlType(name = "", propOrder = {
-        "firstAccessTime"
-})*/
 public class AraFileUsageDetails implements Serializable {
 
     private final static long serialVersionUID = 1L;
